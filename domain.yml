@@ -1,0 +1,74 @@
+version: '2.0'
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
+intents:
+  - greet
+  - goodbye
+  - affirm
+  - deny
+  - bot_challenge
+  - activate_sleep
+  - EXTERNAL_sleep_remainder
+  - giving_my_name
+  - sleep_duration
+  - setup
+  - Feeling_of_sleep
+  - feeling_of_sleep
+  - activate_mood
+  - EXTERNAL_mood_remainder
+  - how_is_mood
+  - how_active
+  - activate_check
+  - EXTERNAL_check_activity
+entities:
+  - PERSON
+  - duration
+slots:
+  PERSON:
+    type: text
+    influence_conversation: true
+  duration:
+    type: text
+    influence_conversation: true
+responses:
+  utter_greet:
+  - text: Hey! How are you?
+  utter_cheer_up:
+  - image: https://i.imgur.com/nGF1K8f.jpg
+    text: 'Here is something to cheer you up:'
+  utter_did_that_help:
+  - text: Did that help you?
+  utter_happy:
+  - text: Great, carry on!
+  utter_goodbye:
+  - text: Bye
+  utter_iamabot:
+  - text: I am a bot, powered by Rasa.
+  utter_sleep_1:
+  - text: Good Morning {PERSON}, How did you sleep?
+  utter_sleep_2:
+  - text: And how long did you sleep?
+  utter_ask_name:
+  - text: hey, what is your name?
+  utter_mood_3:
+  - text:  And, how active were you?
+  utter_mood_4:
+  - text: Alright then, have a good night!
+  utter_check_1:
+  - text: You did not report your mood and activity yesterday. Do you want to report them now?
+  utter_check_2:
+  - text: Okay. Tell me how was mood yesterday?
+  utter_check_3:
+  - text:  And, how active were you?
+  utter_check_4:
+  - text: Okay, thank you for answering the questions.
+actions:
+  - action_activate_sleep
+  - action_setup
+  - action_get_sleep_time
+  - action_log_info
+  - action_activate_mood
+  - action_mood_1
+  - action_log_action_done
+  - action_check_1

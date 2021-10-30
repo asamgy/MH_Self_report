@@ -1,0 +1,492 @@
+          
+ 	 	          	Grounded Emotions
+                          ==========================
+                            
+                                 Version 1.0
+                                   
+                              July 18th, 2017
+
+                    Vicki Liu, Carmen Banea, Rada Mihalcea 
+
+                      		vickiliu@umich.edu
+  
+
+CONTENTS
+
+1. Introduction
+2. Data Set
+2.a. Collected Data Annotation
+2.b. Derived Data Annotation
+2.c. Folder Structure
+3. Tools & API's
+4. Reference
+5. Feedback
+
+
+
+=======================
+1. Introduction
+
+This README concerns the data used in:
+Liu V., Banea C., and Mihalcea R. Grounded Emotions. In Proceedings of Affective
+Computing and Intelligent Interaction (ACII 2017). San Antonio, Tx, USA. Oct. 2017.
+where the effect of external factors such as weather, news events, social network
+and user predisposition is analyzed as it relates to tweet sentiment, as opposed
+to traditional NLP approaches primarily focusing on the text of the tweet itself. 
+
+=======================
+2. Data Set
+
+Our data is separated into two different sets
+	- Collected Data
+	- Derived Data
+
+=========
+2.a. Collected Data Annotation
+
+This data consists of results that were returned from various APIs we used.
+These data files hold the raw data fields that were later processed and
+formatted into features used in machine learning classifiers.
+
+
+===
+Tweets
+
+First we collected tweets, using the Twitter Search API,
+(https://dev.twitter.com/rest/public/search) which contained 
+either a #happy or #sad hashtag and were published from the 
+top 20 most populous U.S metropolitan areas. 
+
+For each tweet collected containing a happy or sad tag 
+the following metadata is also retained:
+
+|Field    | Example                        | Description						|
+|---------|--------------------------------|------------------------------------|
+|id       | 114749583439036416             | unique integer id of a tweet 		|
+|pub_date | Wed Mar 08 18:55:54 +0000 2017 | date of tweet publication			|
+|tag      | happy                          | happy or sad tag					|
+
+We also collected the location the tweet was tweeted from and the 
+username of the tweet author but for privacy purposes we have 
+not included these fields in the data files.
+
+The collected data pertaining to a tweet is stored on a single line and
+its fields are delimited by the "|" character. The graphic 
+below demonstrates the format of the collected tweets. Line numbers are 
+shown on the left and fields are bracketed by <>.
+
+	1 | # File name: collected_tweets.txt
+	2 |	<tweet1_id>|<tweet1_pub_date>|<tweet1_tag>
+	3 |	<tweet2_id>|<tweet2_pub_date>|<tweet2_tag>
+
+
+
+===
+Weather Data
+
+Next we collected weather data that pertains to the collected tweets. 
+For each tweet we isolated the date and location of the tweet's publication. 
+We then used this information to query the Weather Underground Weather History API 
+(https://www.wunderground.com/weather/api/d/docs?d=data/history) to find 
+weather conditions and information that occurred on the emotion tagged tweet's 
+date and location. For each tweet we collected the following weather information 
+every hour within the 12 hours prior to the emotion tagged tweet 
+in the following order:
+
+
+|Field    | Example             | Description				|
+|---------|---------------------|---------------------------------------|
+|id       | 114749583439036416	| tweet id of emotion tagged tweet      |
+|cond     | Partly cloudy 	| phrase summary of weather conditions	|
+|temp     | 66.0                | temperature (F)        		|
+|fog 	  | 1			| 1 = fog occurred, 0 = no fog 		|
+|hail	  | 0 			| 1 = hail occurred, 0 = no hail	|
+|rain	  | 0			| 1 = rain occurred, 0 = no rain	|
+|snow	  | 1			| 1 = snow occurred, 0 = no snow	|
+|thunder  | 1			| 1 = thunder occurred, 0 = no thunder	|
+|tornado  | 0			| 1 = tornado occurred, 0 = no tornado	|
+|humidity | 10.0 		| humidity (%)				|
+|precip   | 1.0 		| precipitation in inches		|
+|windgust | 5 			| wind gust mph				|
+|windchill| -45.0 		| wind chill (F)		        |
+|heat     | 105.0 		| heat index (F)			|
+|vis      | 10 			| visibility in miles			|
+|time     | 2017-03-07 11:51:00 | date of weather data collection.      |
+
+
+All fields are printed in the order listed above, delimited by the "|" 
+character. The first field in every line is the tweet id that the weather information 
+corresponds to. This way the tweet ID becomes the key to index into the weather 
+file with. The graphic below demonstrates the formatting (comments included for 
+clarity, not present in actual file).
+
+
+	1 | # File name: collected_weather_data.txt
+	2 |
+	3 | # Weather data for tweet1, hour 1 
+	4 |	<tweet1_id>|<cond>|<temp>|<fog>|<hail>|<rain>|<snow>|<thunder>|<tornado>|<humidity>|<precip>|<windgust>|<windchill>|<heatindex>|<visibility>
+	5 | # Weather data for tweet1, hour 2
+	6 |	<tweet1_id>|<cond>|<temp>|<fog>|<hail>|<rain>|<snow>|<thunder>|<tornado>|<humidity>|<precip>|<windgust>|<windchill>|<heatindex>|<visibility>
+
+
+
+
+===
+User Predisposition (User History) Data
+
+For each emotion tagged tweet we also collected the user history of the tweet's 
+author. User history is considered any tweet that the author posted in the 24 
+hours prior to the publication of the original emotion tagged tweet. We used the 
+Twitter API Statuses Endpoint (https://dev.twitter.com/rest/reference/get/statuses/user_timeline) to find what the publishing author previously posted. 
+For each emotion tagged tweet, we collected the following fields for 
+all tweets that the author posted within the previous 12 hours:
+
+|Field      | Example                       | Description			           |
+|-----------|-------------------------------|----------------------------------------------|
+|id         | 114749583439036416	    | tweet id of emotion tagged tweet 	           |
+|history_id | 850007368138018817.           | id of author's previous tweet	           |
+|text       | "tgif!!"                      | text of author's previous tweet.             |
+|date	    | Wed Fri 08 18:55:54 +0000 2017| publication date of previous tweet	   |   
+|retweets.  | 13.                           | number of times previous tweet was retweeted |
+|favs       | 5	                            | number of times previous tweet was favorited |
+|reply	    | True                          | previous tweet is a reply True/False         |
+
+In the example above, these fields indicate that the author of the 
+original emotion tagged tweet with the id 114749583439036416, also posted 
+another tweet, "tgif!!" in the 12 prior hours of the original tweet 
+(with id 850007368138018817). Some emotion tagged tweets will 
+not have any entries in the user history data because the author did not 
+post any other tweets in the 12 hour time span. Conversely, users who authored 
+an emotion tagged tweet who are more active will have many entries in the 
+user history data. Like the other data files, the fields listed in the 
+table above will represent one line in the data file, and will be
+separated by a "|" character.
+
+	1 | # File name: collected_weather_data.txt
+	2 |
+	3 | <tweet1_id>|<prevtweet1_id>|<prevtweet1_text>|<prevtweet1_date>|<prevtweet1_retweets>|<prevtweet1_favs>|<prevtweet1_reply>
+	4 | <tweet1_id>|<prevtweet2_id>|<prevtweet2_text>|<prevtweet2_date>|<prevtweet2_retweets>|<prevtweet2_favs>|<prevtweet2_reply>
+
+
+
+
+===
+Social Network (Friend History) Data 
+
+In order to gauge the influence of one's social network on his/her tweets, 
+we looked at tweets posted by the user's friends. A user's friend 
+is defined as someone whom the user follows on Twitter. For each emotion 
+tagged tweet, we obtained a list of the author's friends. Of these friends
+we looked at their most recent tweets and collected the ones that occurred
+within 24 hours of the emotion tagged tweet's publication. The fields
+collected are listed in order below.
+
+|Field         | Example                       | Description			   	      |
+|--------------|-------------------------------|----------------------------------------------|
+|id            | 114749583439036416	       | tweet id of emotion tagged tweet 	      |
+|time_frame    | 12h 			       | 12h/24h 	              		      |
+|friendtweet_id| 850007368138018817            | id of friend's tweet		       	      |
+|text 	       | "love it!"                    | text of friend's tweet                       |
+|date	       | Wed Fri 08 18:55:54 +0000 2017| publication date of friend's tweet 	      |   
+|is_rt	       | True                          | friend's tweet is a retweet, True/False      |
+|retweets.     | 100                           | number of times friend's tweet was retweeted |
+|favs          | 5                             | number of times friend's tweet was favorited |
+|reply	       | True	                       | friend's is a reply True/False               |
+
+It is important to note that certain users’ friend information or Twitter 
+histories could not be collected due to privacy settings on their account. 
+The fields above are listed in the data file as one line, separated by 
+the "|" character as shown below.
+
+	1 | # File name: collected_friend_history_data.txt
+	2 |
+	3 |	<tweet1_id>|<friendtweet1_timeframe>|<friendtweet1_id>|<friendtweet1_text>|<friendtweet1_date>|<friendtweet1_is_rt>|<friendtweet1_retweets>|<tweet1_history_favs>|<friendtweet1_reply>
+	4 |	<tweet1_id>|<friendtweet2_timeframe>|<friendtweet2_id>|<friendtweet2_text>|<friendtweet2_date>|<friendtweet2_is_rt>|<friendtweet2_retweets>|<friendtweet2_favs>|<friendtweet2_reply>
+	5 |<tweet2_id>|<friendtweet1_timeframe>|<friendtweet1_id>|<friendtweet1_text>|<friendtweet1_date>|<friendtweet1_is_rt>|<friendtweet1_retweets>|<tweet1_history_favs>|<friendtweet1_reply>
+
+
+
+
+===
+News Data
+
+For current events we used the New York Times Article Search API 
+(https://developer.nytimes.com/article_search_v2.json) to find 
+relevant news that occurred on a particular date. For each 
+emotion tagged tweet, we used the publication date to collect all 
+the news articles published on the New York Times print edition on 
+that same day. Of these articles we kept the articles that were 
+published on the front page of the print edition of the New York Times 
+because these are usually more "trending" and widely known news events. 
+For each article on the front page of the news we collected the 
+following information.
+
+|Field    | Example                               | Description		       |
+|---------|---------------------------------------|----------------------------|
+|headline | "The London of London’s Mayor" 	  | article headline 	       |
+|snippet  | "Mayor Sadiq Khan, the son of a ..."  | short article description  |
+|date     | 2017-01-18T15:30:03+0000 		  | article publication date   |
+
+Each article is represented as a line in the data file, 
+with the fields listed in the order above delimited by a "|". 
+See the following graphic for reference.
+
+	1 | # File name: collected_news_data.txt
+	2 |
+	3 |	<article1_headline>|<article1_snippet>|<article1_date>
+	4 |	<article2_headline>|<article2_snippet>|<article2_date>
+
+
+
+
+=========
+2.b. Derived Data Annotation
+
+This data consists of the reformatted and sentiment annotated 
+version of the raw collected data. The derived data files 
+contain the features that we chose and used in our feature vectors.
+
+
+
+===
+Timing
+
+From the tweet's publication time stamp we isolated the month 
+and the day of the week to use as timing based features. 
+
+|Field  | Example            | Description	 		|
+|-------|--------------------|----------------------------------|
+|id     | 114749583439036416 | tweet id of emotion tagged tweet |
+|month  | Dec 		     | month of tweet publication  	|
+|day    | Fri		     | day of week of tweet publication |
+
+Every tweet is represented by a line in the data file and the 
+fields are separated by a "|" character as shown below.
+
+	1 | # File name: derived_timing_data.txt
+	2 |
+	3 |	<tweet1_id>|<tweet1_month>|<tweet1_day>
+	4 |	<tweet2_id>|<tweet2_month>|<tweet2_date>
+
+
+
+
+===
+Derived Weather Data
+
+We narrowed down the weather data to temperature, humidity, rain, snow, thunder, 
+tornado, fog, hail and weather condition phrase because these features resulted in the 
+best accuracies. Because the weather data was collected on an hourly basis 
+(over a 12 hour span) we needed a way to condense 12 separate weather data instances 
+into one. For temperature and humidity we kept the most extreme (highest or lowest) 
+values that occurred over the 12 hour period. This is because extreme weather has 
+a more tangible impact on one's mood. Since rain, snow, thunder, tornado, fog and hail
+are binary features, we kept the value of 1 if the weather condition did occur at all 
+during the 12 hour period or 0 if the weather condition did not occur. For the weather 
+condition phrase, we used the phrase that occurred most recently to the tweet's 
+publication. This yielded better results than other heuristics used. The 
+Weather Underground API provides 96 weather condition phrases which were too fine 
+grained for our purposes. We categorized these phrases into 18 groups, taking care to 
+retain the intensity of the meteorological condition. For example, "Overcast" and "Mostly 
+Cloudy" were grouped into "heavy cloudy" while "Scattered Clouds" and "Partly Cloudy" 
+were grouped into "light cloudy". A full mapping of the weather phrases can be found 
+in the weather_mapping.py file. The information that we retained is shown below (in order).
+
+|Field    | Example             | Description				|
+|---------|---------------------|---------------------------------------|
+|id       | 114749583439036416	| tweet id of emotion tagged tweet.     |
+|cond     | light cloudy 	| phrase summary of weather conditions	|
+|humidity | 10.0                | most extreme humidity (%)     	|
+|fog 	  | 1			| 1 = occurred in 12h, 0 = no fog       |
+|hail	  | 0 			| 1 = occurred in 12h, 0 = no hail	|
+|snow	  | 1			| 1 = occurred in 12h, 0 = no snow	|
+|thunder  | 1			| 1 = occurred in 12h, 0 = no thunder	|
+|tornado  | 0			| 1 = occurred in 12h, 0 = no tornado	|
+|rain	  | 0			| 1 = occurred in 12h, 0 = no rain	|
+|temp     | 66.0 		| most extreme temp (F)		        |
+
+As a result of condensing 12 data points into one, each line in the data file represents the weather conditions surrounding one emotion tagged tweet. However, for some emotion tagged tweets, the Weather Underground API was not able to provide data, these instances are not provided in the data file. The file layout is shown below.
+
+	1 | # File name: derived_weather_data.txt
+	2 |
+	3 | <tweet1_id>|<cond>|<humidity>|<fog>|<hail>|<snow>|<thunder>|<tornado>|<rain>|<temp>
+	4 | <tweet2_id>|<cond>|<humidity>|<fog>|<hail>|<snow>|<thunder>|<tornado>|<rain>|<temp>
+
+
+
+===
+Derived User Predisposition (User History)
+
+In order to show user mood predisposition, we collected all the relevant 
+historical tweets from the author of an emotion tagged tweet 
+(collected_user_history_data.txt). For each historical tweet, we used 
+the Stanford CoreNLP sentiment annotator (https://stanfordnlp.github.io/CoreNLP/) 
+to classify each one as positive or negative, and summed them up so that for each 
+emotion tagged tweet we have the total number of positive as well as negative
+historical tweets associated with it. We divided the number of positive and negative
+tweets by the TOTAL number of historical tweets an emotion tagged tweet is associated
+with to obtain a normalized positive and negative score. For example if the author 
+of an emotion tagged tweet also tweeted out 3 positive and 1 negative tweets
+24 hours prior, the positive score would be 0.75 and the negative score would 
+be 0.25. We used these scores to represent the user's predisposition 
+to positive or negative sentiment. 
+
+|Field    | Example             | Description				|
+|---------|---------------------|---------------------------------------|
+|id       | 114749583439036416	| tweet id of emotion tagged tweet.     |
+|pos      | 0.25 	        | positive user predisposition      	|
+|neg      | 0.375               | negative user predisposition          |
+
+The positive and negative score will not always sum up to 1 because some tweets 
+are classified by the Stanford CoreNLP sentiment annotator as Neutral, in 
+which case we do not add the tweet to the positive or negative tweets but 
+still classify it as a historical tweet of an emotion tagged instance. 
+The format of the data file is shown below.
+
+	1 | # File name: derived_user_history_data.txt
+	2 |
+	3 | <tweet1_id>|<pos>|<neg>
+	4 | <tweet2_id>|<pos>|<neg>
+
+
+
+
+===
+Derived Social Network (Friend History)
+
+Previously we collected the tweets posted by the friends of an emotion tagged 
+tweet's author within a 24 hour period (collected_friend_history_data.txt). 
+For each of these friend's tweets we used the Stanford CoreNLP sentiment 
+annotator (https://stanfordnlp.github.io/CoreNLP/) to classify them as 
+positive or negative. Similar to how we handled user predisposition, we summed 
+the total number of positive and negative tweets associated with an emotion 
+tagged tweet and divided them by the total number of tweets all the friends 
+of the author have posted within the 24 hour period. We used the normalized 
+positive and negative score to represent the sentiment of a user's social network.
+
+|Field    | Example             | Description				 |
+|---------|---------------------|----------------------------------------|
+|id       | 114749583439036416	| tweet id of emotion tagged tweet 	 |
+|pos      | 0.03	        | positive social network predisposition |
+|neg      | 0.45                | negative social network predisposition |   	    
+
+Data file is shown below.
+
+	1 | # File name: derived_friend_history_data.txt
+	2 |
+	3 |	<tweet1_id>|<pos>|<neg>
+	4 | <tweet2_id>|<pos>|<neg>
+
+
+
+===
+Derived News
+
+In order to determine the effect of current news on tweet sentiment we 
+collected the headline and snippet (short description) of news articles 
+occurring on the same day of an emotion tagged tweet's publication 
+(collected_news_data.txt). Each emotion tagged tweet is associated with a 
+set of articles published on the same day. For each article we used the 
+Stanford CoreNLP sentiment annotator (https://stanfordnlp.github.io/CoreNLP/) 
+to classify the headline and the article snippet as positive or negative 
+and summed them. Thus for each emotion tagged tweet we calculated the total 
+number of positive and negative headlines and positive and negative article 
+snippets associated with them. We normalized each of these sums by dividing 
+by the total number of articles published on that day, resulting in a positive 
+and negative headline score as well as a positive and negative snippet score. 
+
+
+|Field       | Example             | Description	              |
+|------------|---------------------|----------------------------------|
+|id          | 114749583439036416  | tweet id of emotion tagged tweet |
+|hl_pos      | 0.076	           | positive headline score 	      |
+|hl_neg      | 0.461               | negative headline score 	      |  
+|snippet_pos | 0.231	           | positive article snippet score   |
+|snippet_neg | 0.615               | negative article snippet score   | 
+
+
+Data file formate shown below.
+
+	1 | # File name: derived_news_data.txt
+	2 |
+	3 | <tweet1_id>|<hl_pos>|<hl_neg>|<snippet_pos>|<snippet_neg>
+	4 | <tweet1_id>|<hl_pos>|<hl_neg>|<snippet_pos>|<snippet_neg>
+
+It is important to note that emotion tagged tweets published on the 
+same date will have the same headline and snippet scores.
+
+
+
+
+=====
+2.c. Folder Structure
+
+*collected_data
+	This folder contains data as collected from various API's
+    Files:
+		collected_tweets.txt 
+		collected_weather_data.txt
+		collected_user_history_data.txt
+		collected_friend_history_data.txt  NOT INCLUDED, CONTACT THE AUTHORS IF YOU NEED THIS DATA
+		collected_news_data.txt
+
+*derived_data
+	This folder contains formatted and derived data for testing and training use
+	Files:
+		derived_timing_data.txt
+		derived_weather_data.txt
+		derived_user_history_data.txt
+		derived_friend_history_data.txt
+		derived_news_data.txt
+
+*misc
+	This folder contains various helper files
+	Files:
+		weather_mapping.py - weather condition phrase mapping used to derive weather data
+		locations.py - 20 most populous metropolitan areas used for tweet collection
+
+
+
+=======================
+3. Tools & APIs
+
+This project relied heavily on external APIs and tools for data collection purposes.
+Below is a detailed list showing which APIs and tools were used along with links.
+
+Twitter API - https://dev.twitter.com/rest/public
+	Search - https://dev.twitter.com/rest/public/search
+	Statuses - https://dev.twitter.com/rest/reference/get/statuses/user_timeline
+	Friends - https://dev.twitter.com/rest/reference/get/friends/ids
+
+Weather Underground API - https://www.wunderground.com/weather/api/
+	Historical Data - https://www.wunderground.com/weather/api/d/docs?d=data/history
+
+New York Times API - https://developer.nytimes.com/
+	Article Search - https://developer.nytimes.com/article_search_v2.json
+
+Stanford Core NLP - https://stanfordnlp.github.io/CoreNLP/
+	Sentiment Annotator - https://nlp.stanford.edu/sentiment/
+
+
+
+=======================
+4. Reference
+
+If you use this data, please cite
+
+@inproceedings{Liu17,
+  author = {Liu, V. and C. Banea and R. Mihalcea},
+  title = {Grounded Emotions},
+  bootktile = {International Conference on Affective Computing and Intelligent Interaction (ACII 2017}},
+  address = {San Antonio, Texas},
+  year = {2017}}
+
+
+=======================
+
+5. Feedback
+
+For further questions or inquiries about this data set, you can contact:
+Vicki Liu (vickiliu@umich.edu).
+
+

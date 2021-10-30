@@ -1,0 +1,53 @@
+version: "2.0"
+
+stories:
+
+- story: happy path
+  steps:
+  - intent: greet
+  - action: utter_greet
+
+- story: bot_setup
+  steps:
+  - intent: giving_my_name
+  - action: action_setup
+
+- story: sleep remainder
+  steps:
+  - intent: EXTERNAL_sleep_remainder
+  - action: utter_sleep_1
+  - action: action_log_info
+  - intent: how_is_mood
+  - action: utter_sleep_2
+  - action: action_log_info
+  - intent: sleep_duration
+  - action: action_get_sleep_time
+  - action: action_log_info
+
+- story: mood remainder
+  steps:
+  - intent: EXTERNAL_mood_remainder
+  - action: action_mood_1
+  - action: action_log_info
+  - intent: how_is_mood
+  - action: utter_mood_3
+  - action: action_log_info
+  - intent: how_active
+  - action: utter_mood_4
+  - action: action_log_action_done
+
+- story: check
+  steps:
+  - intent: EXTERNAL_check_activity
+  - action: action_check_1
+  - action: action_log_info
+  - intent: affirm
+  - action: utter_check_2
+  - action: action_log_info
+  - intent: how_is_mood
+  - action: utter_check_3
+  - action: action_log_info
+  - intent: how_active
+  - action: utter_check_4
+  - action: action_log_info
+

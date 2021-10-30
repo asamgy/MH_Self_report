@@ -1,0 +1,143 @@
+version: "2.0"
+
+nlu:
+
+- intent: setup
+  examples: |
+    - Setup my profile
+    - my profile
+    - update my profile
+
+
+- intent: giving_my_name
+  examples: |
+    - My name is Prakash
+    - People call me Naveen
+    - I am Ramesh
+    - Paul
+    - My name is Paul
+
+
+- intent: greet
+  examples: |
+    - hey
+    - hello
+    - hi
+    - hello there
+    - good morning
+    - good evening
+    - moin
+    - hey there
+    - let's go
+    - hey dude
+    - goodmorning
+    - goodevening
+    - good afternoon
+
+- intent: goodbye
+  examples: |
+    - good afternoon
+    - cu
+    - good by
+    - cee you later
+    - good night
+    - bye
+    - goodbye
+    - have a nice day
+    - see you around
+    - bye bye
+    - see you later
+
+- intent: affirm
+  examples: |
+    - yes
+    - y
+    - indeed
+    - of course
+    - that sounds good
+    - correct
+
+- intent: deny
+  examples: |
+    - no
+    - n
+    - never
+    - I don't think so
+    - don't like that
+    - no way
+    - not really
+
+
+
+- intent: bot_challenge
+  examples: |
+    - are you a bot?
+    - are you a human?
+    - am I talking to a bot?
+    - am I talking to a human?
+
+- intent: activate_sleep
+  examples: |
+    - activate the sleep tracker
+    - can you please track my sleep
+    - i want you to track my sleep!
+
+- intent: sleep_duration
+  examples: |
+    - about 8 hours
+    - i have slept 5 hours
+    - i had 10 hours sleep
+
+- intent: activate_mood
+  examples: |
+    - activate the mood tracker
+    - want to track mood
+    - activate mood
+
+- intent: how_is_mood
+  examples: |
+    - It was good most of 5the time.
+    - enjoying
+    - perfect
+    - good mood
+    - great
+    - amazing
+    - feeling like a king
+    - wonderful
+    - I am feeling very good
+    - I am great
+    - I am amazing
+    - I am going to save the world
+    - super stoked
+    - extremely good
+    - so so perfect
+    - so good
+    - so perfect
+    - my day was horrible
+    - I am sad
+    - I don't feel very well
+    - I am disappointed
+    - super sad
+    - I'm so sad
+    - sad
+    - very sad
+    - unhappy
+    - not good
+    - not very good
+    - extremly sad
+    - so saad
+    - so sad
+
+- intent: how_active
+  examples: |
+    - Wasn’t very active today.
+    - dull
+    - super active today!
+
+- intent: activate_check
+  examples: |
+    - activate check
+    - activate regular activity notification check
+    - notification check
+
+

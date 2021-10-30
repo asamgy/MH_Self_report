@@ -1,0 +1,39 @@
+version: "2.0"
+
+rules:
+
+- rule: Say goodbye anytime the user says goodbye
+  steps:
+  - intent: goodbye
+  - action: utter_goodbye
+
+- rule: Say 'I am a bot' anytime the user challenges
+  steps:
+  - intent: bot_challenge
+  - action: utter_iamabot
+
+- rule: activate sleep
+  steps:
+  - intent: activate_sleep
+  - action: action_activate_sleep
+
+- rule: bot_setup
+  steps:
+  - intent: setup
+  - action: utter_ask_name
+
+- rule: sleep
+  steps:
+  - intent: sleep_duration
+  - action: action_get_sleep_time
+  - action: action_log_info
+
+- rule: activate mood
+  steps:
+  - intent: activate_mood
+  - action: action_activate_mood
+
+- rule: activate check
+  steps:
+  - intent: activate_check
+  - action: action_check_1
