@@ -38,11 +38,11 @@ After a short training it will be ready to listen.
 
 Something like this screen will be presented : 
 
-![image](https://user-images.githubusercontent.com/530190/140071847-87c58a5f-9ffb-4e1f-9ec1-ede7dbce9e69.png)
+[image](https://user-images.githubusercontent.com/530190/140071847-87c58a5f-9ffb-4e1f-9ec1-ede7dbce9e69.png)
 
 Start speaking and see whatsoever you speak will be logged like this :
 
-![image](https://user-images.githubusercontent.com/530190/140073008-6e8fb877-bb86-4deb-9fcd-6e718ac68f80.png)
+[image](https://user-images.githubusercontent.com/530190/140073008-6e8fb877-bb86-4deb-9fcd-6e718ac68f80.png)
 
 
 IMPORTANT NOTE : TABLE Name in the database created using database.py and used in app.py is ```paul_table```. In case you need to change it, please update it in both the places and run do Step 4) and Step 5) again. 
