@@ -1,0 +1,7 @@
+pipwin
+pyaudio
+rich
+speechrecognition
+pyttsx3
+datetime
+neuralintents

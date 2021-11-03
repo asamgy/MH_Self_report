@@ -1,0 +1,45 @@
+{
+    "intents":
+    [
+        {
+            "tag" : "scenario_1_start",
+            "patterns" : ["hey", "hello", "hi", "hello there", "good morning", "good evening", "moin", "hey there", "let's go", "hey dude", "activate the sleep tracker", "can you please track my sleep", "i want you to track my sleep!"],
+            "responses" : ["Hello Sir, What can i do for you?"]
+        },
+        {
+            "tag" : "scenario_2_start",
+            "patterns" : ["activate the mood tracker", "want to track mood", "activate mood"],
+            "responses" : ["You did not report your mood and activity yesterday. Do you want to report them now?"]
+        },
+        {
+            "tag" : "scenario_3_start",
+            "patterns" : ["missed notification", "missed notifications", "notification missed"],
+            "responses" : ["You did not report your mood and activity yesterday. Do you want to report them now?"]
+        },
+        {
+            "tag" : "exit",
+            "patterns" : ["Bye", "Good bye", "take care bye", "Good bye", "good morning", "good evening", "good afternoon", "good afternoon", "cu", "good by", "cee you later", "good night", "bye", "goodbye", "have a nice day", "see you around", "bye bye", "see you later"],
+            "responses" : ["Bye"]
+        },
+        {
+            "tag" : "how_active",
+            "patterns" : ["Wasn’t very active today.", "dull", "super active today!"],
+            "responses" : ["Alright then, have a good night!"]
+        },
+        {
+            "tag" : "sleep_duration",
+            "patterns" : ["About 8 hours", "About 6 hours", "2 hours", "9 hours", "i have slept 5 hours", "i had 10 hours sleep", " i slept well", "i slept fine", "i had nice sleep"],
+            "responses" : ["Sounds good. Have a great day."]
+        },
+        {
+            "tag" : "how_is_mood",
+            "patterns" : ["It was good most of 5the time.", "enjoying", "perfect", "good mood", "great", "amazing", "feeling like a king", "wonderful", "I am feeling very good", "I am great", "I am amazing", "I am going to save the world", "super stoked", "extremely good", "so so perfect", "so good", "so perfect", "my day was horrible", "I am sad", "I don't feel very well", "I am disappointed", "super sad", "I'm so sad", "sad", "very sad", "unhappy", "not good", "not very good", "extremly sad", "so saad", "so sad", "it was alright", "my mood is fine", "my mood is not good"], 
+            "responses" : ["Good Morning John,  How was your day today?"]
+        },
+        {
+            "tag" : "affirm",
+            "patterns" : ["yes", "y", "indeed", "of course", "that sounds good", "correct", "And how long did you sleep?", "sure", "yeah", "yes why not", "Yup"], 
+            "responses" : ["Okay. Tell me how was mood yesterday?"]
+        }
+    ]
+}
