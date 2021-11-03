@@ -3,20 +3,47 @@
 
 #### 1) Clone the REPO branch neural-intent
 
-- > git clone -b Docker https://github.com/athenasaurav/gangala-docker.git
-- > cd gangala-docker
+- > git clone -b neural-intent https://github.com/asamgy/MH_Self_report.git
+- > cd MH_Self_report
 
-#### 4) Build the Docker app and run the services:
+#### 2) Install requirments.txt
 
-- > docker-compose up --build
+- > pip3 install requirments.txt
 
-It will download the necessary docker images and will build the containers for
-us. Once the containers are ready , we can run the following command to
-make the containers up in running state:
+#### 3) Update Config.py file
 
-- > sudo docker-compose up
+Update the config.py file for mysql database connection
+```
+#SQL Configuration
+HOST = "localhost"
+USER = "yourusername"
+PASSWORD = "yourpassword"
+DATABASE = "databasetablename"
+```
 
-- Check whether the services are up and running using below command:
-- > docker ps -a
+#### 4) RUN database.py
 
-- Once you see all the services up and running, open the ip address of the machine in the browser and test the bot
+```
+python3 database.py
+```
+
+This will create a database connection to create a table inside mysql database to store conversation, time and scenarios. 
+## NOTE - RUN this only one time
+
+### 5) Finally run the app
+```
+python3 app.py
+```
+After a short training it will be ready to listen. 
+
+Something like this screen will be presented : 
+
+![image](https://user-images.githubusercontent.com/530190/140071847-87c58a5f-9ffb-4e1f-9ec1-ede7dbce9e69.png)
+
+Start speaking and see whatsoever you speak will be logged like this :
+
+![image](https://user-images.githubusercontent.com/530190/140073008-6e8fb877-bb86-4deb-9fcd-6e718ac68f80.png)
+
+
+IMPORTANT NOTE : TABLE Name in the database created using database.py and used in app.py is ```paul_table```. In case you need to change it, please update it in both the places and run do Step 4) and Step 5) again. 
+
