@@ -5,3 +5,4 @@ speechrecognition
 pyttsx3
 datetime
 neuralintents
+mysql-connector-python
