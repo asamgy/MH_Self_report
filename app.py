@@ -98,7 +98,7 @@ def how_active():
                 conversation = tuple(conversation)
                 conversation = [conversation]
                 print("final conversation is {}".format(conversation))
-                query = "INSERT INTO paul_table (TIME, SCENARIO, USER_MSG_1, BOT_MSG_1, USER_MSG_2, BOT_MSG_2, USER_MSG_3, BOT_MSG_3, USER_MSG_4, BOT_MSG_4) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+                query = "INSERT INTO {} (TIME, SCENARIO, USER_MSG_1, BOT_MSG_1, USER_MSG_2, BOT_MSG_2, USER_MSG_3, BOT_MSG_3, USER_MSG_4, BOT_MSG_4) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)".format(config.TABLE_NAME)
                 values = conversation
                 cursor.executemany(query,values)
                 connection.commit()
@@ -110,7 +110,7 @@ def how_active():
                 conversation = tuple(conversation)
                 conversation = [conversation]
                 print("final conversation is {}".format(conversation))
-                query = "INSERT INTO paul_table (TIME, SCENARIO, USER_MSG_1, BOT_MSG_1, USER_MSG_2, BOT_MSG_2, USER_MSG_3, BOT_MSG_3, USER_MSG_4, BOT_MSG_4) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+                query = "INSERT INTO {} (TIME, SCENARIO, USER_MSG_1, BOT_MSG_1, USER_MSG_2, BOT_MSG_2, USER_MSG_3, BOT_MSG_3, USER_MSG_4, BOT_MSG_4) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)".format(config.TABLE_NAME)
                 values = conversation
                 cursor.executemany(query,values)
                 connection.commit()
@@ -128,7 +128,7 @@ def how_active():
                 conversation = tuple(conversation)
                 conversation = [conversation]
                 print("final conversation is {}".format(conversation))
-                query = "INSERT INTO paul_table (TIME, SCENARIO, USER_MSG_1, BOT_MSG_1, USER_MSG_2, BOT_MSG_2, USER_MSG_3, BOT_MSG_3, USER_MSG_4, BOT_MSG_4) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+                query = "INSERT INTO {} (TIME, SCENARIO, USER_MSG_1, BOT_MSG_1, USER_MSG_2, BOT_MSG_2, USER_MSG_3, BOT_MSG_3, USER_MSG_4, BOT_MSG_4) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)".format(config.TABLE_NAME)
                 values = conversation
                 cursor.executemany(query,values)
                 connection.commit()
@@ -140,7 +140,7 @@ def how_active():
                 conversation = tuple(conversation)
                 conversation = [conversation]
                 print("final conversation is {}".format(conversation))
-                query = "INSERT INTO paul_table (TIME, SCENARIO, USER_MSG_1, BOT_MSG_1, USER_MSG_2, BOT_MSG_2, USER_MSG_3, BOT_MSG_3, USER_MSG_4, BOT_MSG_4) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+                query = "INSERT INTO {} (TIME, SCENARIO, USER_MSG_1, BOT_MSG_1, USER_MSG_2, BOT_MSG_2, USER_MSG_3, BOT_MSG_3, USER_MSG_4, BOT_MSG_4) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)".format(config.TABLE_NAME)
                 values = conversation
                 cursor.executemany(query,values)
                 connection.commit()
@@ -167,7 +167,7 @@ def sleep_duration():
                 conversation = tuple(conversation)
                 conversation = [conversation]
                 print("final conversation is {}".format(conversation))
-                query = "INSERT INTO paul_table (TIME, SCENARIO, USER_MSG_1, BOT_MSG_1, USER_MSG_2, BOT_MSG_2, USER_MSG_3, BOT_MSG_3, USER_MSG_4, BOT_MSG_4) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+                query = "INSERT INTO {} (TIME, SCENARIO, USER_MSG_1, BOT_MSG_1, USER_MSG_2, BOT_MSG_2, USER_MSG_3, BOT_MSG_3, USER_MSG_4, BOT_MSG_4) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)".format(config.TABLE_NAME)
                 values = conversation
                 cursor.executemany(query,values)
                 connection.commit()
@@ -179,7 +179,7 @@ def sleep_duration():
                 conversation = tuple(conversation)
                 conversation = [conversation]
                 print("final conversation is {}".format(conversation))
-                query = "INSERT INTO paul_table (TIME, SCENARIO, USER_MSG_1, BOT_MSG_1, USER_MSG_2, BOT_MSG_2, USER_MSG_3, BOT_MSG_3, USER_MSG_4, BOT_MSG_4) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+                query = "INSERT INTO {} (TIME, SCENARIO, USER_MSG_1, BOT_MSG_1, USER_MSG_2, BOT_MSG_2, USER_MSG_3, BOT_MSG_3, USER_MSG_4, BOT_MSG_4) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)".format(config.TABLE_NAME)
                 values = conversation
                 cursor.executemany(query,values)
                 connection.commit()
@@ -270,7 +270,7 @@ def quit():
         conversation = tuple(conversation)
         conversation = [conversation]
         print("final conversation is {}".format(conversation))
-        query = "INSERT INTO paul_table (TIME, SCENARIO, USER_MSG_1, BOT_MSG_1, USER_MSG_2, BOT_MSG_2, USER_MSG_3, BOT_MSG_3, USER_MSG_4, BOT_MSG_4) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+        query = "INSERT INTO {} (TIME, SCENARIO, USER_MSG_1, BOT_MSG_1, USER_MSG_2, BOT_MSG_2, USER_MSG_3, BOT_MSG_3, USER_MSG_4, BOT_MSG_4) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)".format(config.TABLE_NAME)
         values = conversation
         cursor.executemany(query,values)
         connection.commit()
@@ -282,7 +282,7 @@ def quit():
         conversation = tuple(conversation)
         conversation = [conversation]
         print("final conversation is {}".format(conversation))
-        query = "INSERT INTO paul_table (TIME, SCENARIO, USER_MSG_1, BOT_MSG_1, USER_MSG_2, BOT_MSG_2, USER_MSG_3, BOT_MSG_3, USER_MSG_4, BOT_MSG_4) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+        query = "INSERT INTO {} (TIME, SCENARIO, USER_MSG_1, BOT_MSG_1, USER_MSG_2, BOT_MSG_2, USER_MSG_3, BOT_MSG_3, USER_MSG_4, BOT_MSG_4) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)".format(config.TABLE_NAME)
         values = conversation
         cursor.executemany(query,values)
         connection.commit()
