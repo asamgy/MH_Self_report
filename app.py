@@ -1,4 +1,4 @@
-
+## Import the libraries
 from neuralintents import GenericAssistant
 import speech_recognition
 import pyttsx3 as tts
@@ -7,6 +7,8 @@ import datetime
 import mysql.connector
 import config
 from rich.console import Console
+
+# create a Mysql Connection to Database
 connection  = mysql.connector.connect(
   host = config.HOST,
   user = config.USER,
@@ -14,15 +16,20 @@ connection  = mysql.connector.connect(
   database = config.DATABASE
 )
 
+# Creating cursor object for Mysql Database connection. 
+cursor = connection.cursor()
+
+# Creating a console object for Printing Rich Comments, This is option instead of using this we can use simple print staments. 
 Console = Console()
 
-cursor = connection.cursor()
+# Create a recongnizier object form Speech Recognition
 recognizer = speech_recognition.Recognizer()
 
+# intialize a speech object for text to speech,
 speaker = tts.init()
-speaker.setProperty('rate', config.SPEAKER_SPEED)
+speaker.setProperty('rate', config.SPEAKER_SPEED) # Seting speed of speaker object, helps to set speed of BOT replying slower or faster.
 
-## Scenario 1 - start
+## Scenario 1 - start - condition from wakeup text and as per time of the day.
 
 def scenario_1_start():
     global conversation
@@ -46,7 +53,7 @@ def scenario_1_start():
         print(conversation)
 
 
-## Scenario 2 - start
+## Scenario 2 - start - condition from wakeup text and as per time of the day.
 
 def scenario_2_start():
     global conversation
@@ -70,9 +77,9 @@ def scenario_2_start():
         print(conversation)
 
 
-## Scenario 3 - missed notification
+## Scenario 3 - missed notification- condition from wakeup text
 
-def scenario_3_start():
+def scenario_3_start(): 
     global conversation
     conversation = ["{}".format(str(datetime.datetime.now()))]
     conversation.append("scenario 3")
@@ -82,7 +89,8 @@ def scenario_3_start():
     conversation.extend([message, "You did not report your mood and activity yesterday. Do you want to report them now?"])
     print(conversation)
 
-
+## Intent : how_active - conditons for intent how_active to respond as per different 3 scenrios. 
+    
 def how_active():
     global conversation
     if conversation[1] == 'scenario 1':
@@ -100,6 +108,7 @@ def how_active():
                 print("final conversation is {}".format(conversation))
                 query = "INSERT INTO {} (TIME, SCENARIO, USER_MSG_1, BOT_MSG_1, USER_MSG_2, BOT_MSG_2, USER_MSG_3, BOT_MSG_3, USER_MSG_4, BOT_MSG_4) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)".format(config.TABLE_NAME)
                 values = conversation
+                # Saving the conversation string to Databse
                 cursor.executemany(query,values)
                 connection.commit()
                 sys.exit(0)
@@ -112,6 +121,7 @@ def how_active():
                 print("final conversation is {}".format(conversation))
                 query = "INSERT INTO {} (TIME, SCENARIO, USER_MSG_1, BOT_MSG_1, USER_MSG_2, BOT_MSG_2, USER_MSG_3, BOT_MSG_3, USER_MSG_4, BOT_MSG_4) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)".format(config.TABLE_NAME)
                 values = conversation
+                # Saving the conversation string to Databse
                 cursor.executemany(query,values)
                 connection.commit()
                 sys.exit(0)
@@ -130,6 +140,7 @@ def how_active():
                 print("final conversation is {}".format(conversation))
                 query = "INSERT INTO {} (TIME, SCENARIO, USER_MSG_1, BOT_MSG_1, USER_MSG_2, BOT_MSG_2, USER_MSG_3, BOT_MSG_3, USER_MSG_4, BOT_MSG_4) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)".format(config.TABLE_NAME)
                 values = conversation
+                # Saving the conversation string to Databse
                 cursor.executemany(query,values)
                 connection.commit()
                 sys.exit(0)
@@ -142,6 +153,7 @@ def how_active():
                 print("final conversation is {}".format(conversation))
                 query = "INSERT INTO {} (TIME, SCENARIO, USER_MSG_1, BOT_MSG_1, USER_MSG_2, BOT_MSG_2, USER_MSG_3, BOT_MSG_3, USER_MSG_4, BOT_MSG_4) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)".format(config.TABLE_NAME)
                 values = conversation
+                # Saving the conversation string to Databse
                 cursor.executemany(query,values)
                 connection.commit()
                 sys.exit(0)
@@ -150,6 +162,8 @@ def how_active():
             speaker.runAndWait()
 
 
+## Intent : sleep_duration - conditons for intent how_active to respond as per different 3 scenrios.       
+      
 def sleep_duration():
     global conversation
     if conversation[1] == 'scenario 1':
@@ -169,6 +183,7 @@ def sleep_duration():
                 print("final conversation is {}".format(conversation))
                 query = "INSERT INTO {} (TIME, SCENARIO, USER_MSG_1, BOT_MSG_1, USER_MSG_2, BOT_MSG_2, USER_MSG_3, BOT_MSG_3, USER_MSG_4, BOT_MSG_4) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)".format(config.TABLE_NAME)
                 values = conversation
+                # Saving the conversation string to Databse
                 cursor.executemany(query,values)
                 connection.commit()
                 sys.exit(0)
@@ -181,6 +196,7 @@ def sleep_duration():
                 print("final conversation is {}".format(conversation))
                 query = "INSERT INTO {} (TIME, SCENARIO, USER_MSG_1, BOT_MSG_1, USER_MSG_2, BOT_MSG_2, USER_MSG_3, BOT_MSG_3, USER_MSG_4, BOT_MSG_4) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)".format(config.TABLE_NAME)
                 values = conversation
+                # Saving the conversation string to Databse
                 cursor.executemany(query,values)
                 connection.commit()
                 sys.exit(0)
@@ -197,6 +213,7 @@ def sleep_duration():
         speaker.say(config.ERROR)
         speaker.runAndWait()
 
+ ## Intent : how_is_mood - conditons for intent how_active to respond as per different 3 scenrios.   
 
 def how_is_mood():
     global conversation
@@ -228,6 +245,8 @@ def how_is_mood():
             speaker.say(config.ERROR)
             speaker.runAndWait()
 
+ ## Intent : affirm - conditons for intent how_active to respond as per different 3 scenrios.                
+            
 def affirm():
     global conversation
     if conversation[1] == 'scenario 1':
@@ -260,6 +279,8 @@ def affirm():
             speaker.say(config.ERROR)
             speaker.runAndWait()
 
+ ## Intent : quit - conditons for intent how_active to respond as per different 3 scenrios.               
+            
 def quit():
     global conversation
     speaker.say("Take Care. Bye")
@@ -272,6 +293,7 @@ def quit():
         print("final conversation is {}".format(conversation))
         query = "INSERT INTO {} (TIME, SCENARIO, USER_MSG_1, BOT_MSG_1, USER_MSG_2, BOT_MSG_2, USER_MSG_3, BOT_MSG_3, USER_MSG_4, BOT_MSG_4) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)".format(config.TABLE_NAME)
         values = conversation
+        # Saving the conversation string to Databse
         cursor.executemany(query,values)
         connection.commit()
         sys.exit(0)
@@ -284,11 +306,14 @@ def quit():
         print("final conversation is {}".format(conversation))
         query = "INSERT INTO {} (TIME, SCENARIO, USER_MSG_1, BOT_MSG_1, USER_MSG_2, BOT_MSG_2, USER_MSG_3, BOT_MSG_3, USER_MSG_4, BOT_MSG_4) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)".format(config.TABLE_NAME)
         values = conversation
+        # Saving the conversation string to Databse
         cursor.executemany(query,values)
         connection.commit()
         sys.exit(0)
 
 
+# Mapping is used to connect actions defined in app.py with intents defined in intent.json. This will be used to train the bot and give responses.
+        
 mappings = {
     "scenario_1_start" : scenario_1_start,
     "exit" : quit,
@@ -300,18 +325,30 @@ mappings = {
     "affirm" : affirm,
 }
 
+# create a assistant object based on intent.json and mappings created earlier
+
 assistant = GenericAssistant('intent.json', intent_methods= mappings)
 assistant.train_model()
+
+
+# To keep the BOT running we use while condtions and start the speech recognition engine.
 
 while True:
     try:
         with speech_recognition.Microphone() as mic:
+            # create a recognizier object for mic
             recognizer.adjust_for_ambient_noise(mic, duration=1)
+            # get the audio received using listen method of speech recognition
             audio = recognizer.listen(mic)
+            # create a message object to save the audio as text
             message = recognizer.recognize_google(audio)
+            # convert the message object to lower case
             message = message.lower()
+            #print the message received in console
             Console.print("[cyan]Message received is - [/] [red]{}[/]".format(message))
-
+        
+        # send the message object to assitant object for intent recognition.
         assistant.request(message)
+       
     except speech_recognition.UnknownValueError:
         recognizer = speech_recognition.Recognizer()
